@@ -57,17 +57,17 @@ function HandleSearch() {
             const lon = parseFloat(place.lon);
             const displayName = place.display_name;
 
-            // Move map
+            
             map.setView([lat, lon], 12);
 
-            // Place or move marker
+            
             if (marker) {
                 marker.setLatLng([lat, lon]);
             } else {
                 marker = L.marker([lat, lon]).addTo(map);
             }
 
-            // Fetch image from Wikipedia
+            
             fetch(`https://en.wikipedia.org/w/api.php?origin=*&action=query&titles=${encodeURIComponent(prompt)}&prop=pageimages&format=json&pithumbsize=300`)
                 .then(res => res.json())
                 .then(wikiData => {
@@ -98,7 +98,7 @@ function HandleSearch() {
 function findNearby(type) {
     sidebar.classList.toggle("slide")
     if (!map.getCenter()) return alert("Map is not ready.");
- 
+
     // Clear previous nearby markers
     nearbyMarkers.forEach(m => map.removeLayer(m));
     nearbyMarkers = [];
@@ -155,16 +155,15 @@ function findNearby(type) {
 
 }
 map.on('click', function (e) {
-    // Optional: skip clicks on markers
+    
     if (e.originalEvent.target.tagName === 'IMG' || e.originalEvent.target.classList.contains('leaflet-marker-icon')) {
         return;
     }
 
-    // Remove nearby markers
+    
     nearbyMarkers.forEach(m => map.removeLayer(m));
     nearbyMarkers = [];
 
-    // Remove search marker
     if (marker) {
         map.removeLayer(marker);
         marker = null;
